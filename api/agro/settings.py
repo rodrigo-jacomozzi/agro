@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # 3rd-party
     'rest_framework',
+    'drf_spectacular',
 
     # Internal
     'producer',
@@ -75,6 +76,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'agro.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

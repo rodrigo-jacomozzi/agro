@@ -36,3 +36,9 @@ make restart
 ```
 
 Observation: you will find other useful make commands inside `Makefile` such as `make stop` and `make test`.
+
+#### API endpoints
+
+By accessing the `/api/schema/swagger-ui/` endpoint after putting the API up, is possible to see 
+all available endpoints. The project also has a `schema.yaml` file with a detailed OpenAPI 3 definition
+on the endpoints and schemas.

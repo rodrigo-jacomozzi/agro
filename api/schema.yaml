@@ -1,0 +1,244 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Agro API Docs
+paths:
+  /producers/:
+    get:
+      summary: List all producers
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producer'
+    post:
+      summary: Create a producer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producer'
+      responses:
+        201:
+          description: Producer created
+  /producers/{id}/:
+    get:
+      summary: Retrieve a producer
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producer'
+    put:
+      summary: Update a producer
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producer'
+      responses:
+        200:
+          description: Producer updated
+    delete:
+      summary: Delete a producer
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        204:
+          description: Producer deleted
+  /dashboard-data/:
+    get:
+      summary: Retrieve relevant producers statistics from database
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardData'
+components:
+  schemas:
+    Producer:
+      type: object
+      properties:
+        register_number:
+          type: string
+          maxLength: 20
+          description: Register number (CPF/CNPJ)
+          example: '12345678909'
+        name:
+          type: string
+          maxLength: 100
+          description: Producer Name
+          example: 'John Denver'
+        url:
+          type: string
+          readOnly: true
+          description: Resource URL
+          example: 'https://api.com/producers/1/'
+        farm_name:
+          type: string
+          maxLength: 100
+          description: Farm name
+          example: 'Green Tree Farm'
+        city:
+          type: string
+          maxLength: 100
+          description: Farm city
+          example: 'Sao Paulo'
+        state:
+          type: string
+          maxLength: 2
+          description: Farm state
+          example: 'SP'
+        total_area:
+          type: number
+          format: decimal
+          description: Total area
+          example: 120.50
+        arable_area:
+          type: number
+          format: decimal
+          description: Arable area
+          example: 80.50
+        vegetation_area:
+          type: number
+          format: decimal
+          description: Vegetation area
+          example: 40.00
+        crops:
+          type: array
+          description: Farm crops
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Crop code
+                enum:
+                  - AL
+                  - SO
+                  - MI
+                  - CA
+                  - CN
+              label:
+                readOnly: true
+                type: string
+                description: Human-readable Crop code
+                enum:
+                  - Algodão
+                  - Soja
+                  - Milho
+                  - Café
+                  - Cana de Açúcar
+    DashboardData:
+      type: object
+      properties:
+        total_producers:
+          type: number
+          format: integer
+          description: Total number of producers
+          example: 12
+        total_area:
+          type: number
+          format: decimal
+          description: Total area of all producers (acres)
+          example: 19573.50
+        total_crops:
+          type: number
+          format: integer
+          description: Total number of crops being cultivated in all farms
+          example: 40
+        producers_per_state:
+          type: array
+          description: Number of producers separated by state
+          items:
+            type: object
+            properties:
+              state:
+                type: string
+                description: State code
+                enum:
+                  - 'AC'
+                  - 'AL'
+                  - 'AP'
+                  - 'AM'
+                  - 'BA'
+                  - 'CE'
+                  - 'DF'
+                  - 'ES'
+                  - 'GO'
+                  - 'MA'
+                  - 'MT'
+                  - 'MS'
+                  - 'MG'
+                  - 'PA'
+                  - 'PB'
+                  - 'PR'
+                  - 'PE'
+                  - 'PI'
+                  - 'RJ'
+                  - 'RN'
+                  - 'RS'
+                  - 'RO'
+                  - 'RR'
+                  - 'SC'
+                  - 'SP'
+                  - 'SE'
+                  - 'TO'
+                example: 'SP'
+              count:
+                type: integer
+                description: Count of producers on that state
+                example: 3
+        crops_per_type:
+          type: array
+          description: Count of farm crops separated by type
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Crop code
+                enum:
+                  - AL
+                  - SO
+                  - MI
+                  - CA
+                  - CN
+              count:
+                type: integer
+                description: Count of crops of that type being cultivated
+                example: 3
+        area_per_usage:
+          description: Farm crops
+          type: object
+          properties:
+            arable:
+              type: number
+              description: Total arable area of all farms (acres)
+              example: 865.11
+            vegetation:
+              type: number
+              description: Total vegetation area of all farms (acres)
+              example: 1948.56
